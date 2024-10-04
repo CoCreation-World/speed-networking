@@ -596,7 +596,7 @@
         {
          "draworder":"topdown",
          "id":2,
-         "name":"spawn",
+         "name":"floorLayer",
          "objects":[
                 {
                  "height":0,
@@ -634,7 +634,7 @@
                 {
                  "height":205.333333333333,
                  "id":30,
-                 "name":"21",
+                 "name":"spawn",
                  "properties":[
                         {
                          "name":"focusable",
