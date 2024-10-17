@@ -840,6 +840,12 @@
                  "height":21.5,
                  "id":45,
                  "name":"doorwayOut24",
+                 "properties":[
+                        {
+                         "name":"start",
+                         "type":"bool",
+                         "value":true
+                        }],
                  "rotation":0,
                  "type":"area",
                  "visible":true,

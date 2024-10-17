@@ -34,24 +34,13 @@ function closePopup() {
 }
 const areaIds = [24, 13, 15, 17, 18, 19, 21, 23];
 const shadowLayers = areaIds.map(id => `${id}shadow`);
-let previousPosition: { x: number, y: number } | undefined;
 
 areaIds.forEach((id, index) => {
     const areaId = id.toString();
     const shadowLayer = shadowLayers[index];
 
     WA.room.area.onEnter(areaId).subscribe(async () => {
-        const playerPosition = await WA.player.getPosition()
-        previousPosition = { x: playerPosition.x, y: playerPosition.y };
-
         let count = await WA.state.loadVariable(areaId) as number;
-        if (count >= 2) {
-            WA.player.moveTo(previousPosition.x, previousPosition.y);
-            WA.chat.sendChatMessage('This area is already full', { scope: 'local', author: 'System' });
-
-            return;
-        }
-
         WA.room.hideLayer('centerShadow');
         let newCount = count + 1;
         WA.state.saveVariable(areaId, newCount).catch(e => console.error('Error saving variable', e));
@@ -76,13 +65,12 @@ areaIds.forEach((id, index) => {
 
 // Hardcoded doorway events
 WA.room.area.onEnter('doorwayOut24').subscribe(() => {
-    WA.nav.goToRoom('doorwayIn24');
+    WA.nav.goToRoom('#doorwayIn24');
 });
 
 WA.room.area.onEnter('doorwayIn24').subscribe(async () => {
-    console.log('Entering doorwayIn24');
     let count = await WA.state.loadVariable('24') as number;
-    if (count >= 2) {
+    if (count === 2) {
         WA.chat.sendChatMessage('This area is already full', { scope: 'local', author: 'System' });
         WA.ui.banner.openBanner({
             id: 'areaFullBanner',
@@ -93,12 +81,12 @@ WA.room.area.onEnter('doorwayIn24').subscribe(async () => {
             closable: true
         });
     } else {
-        WA.nav.goToRoom('24');
+        WA.nav.goToRoom('#24');
     }
 });
 
 WA.room.area.onEnter('doorwayOut13').subscribe(() => {
-    WA.nav.goToRoom('doorwayIn13');
+    WA.nav.goToRoom('#doorwayIn13');
 });
 
 WA.room.area.onEnter('doorwayIn13').subscribe(async () => {
